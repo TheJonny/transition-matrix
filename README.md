@@ -2,12 +2,14 @@
 ## Migration tool for matrix servers
 
 At the moment, this is unfinished, experimental software for breaking my personal server.
-But in the long run, (contributing to) a universal matrix server 
+But in the long run, (contributing to) a universal matrix server
 
 Sorry, but following the convention we have to use math names to protest against search engine optimisation.
 
 ### Approach
 I want to migrate from `synapse` to `conduit`.
+
+- get rid of v1/v2 rooms (I don't think we use any on this server)
 
 - Dump all users
   - enumerate by `/_synapse/admin` API and get login tokens for them
@@ -28,11 +30,16 @@ I want to migrate from `synapse` to `conduit`.
 
 - import user and room state into a conduit database
 - implement backfilling in conduit
-  - patch it so it can request from the own domain by connecting to the synapse instance
+  - patch it so it can request its past using `/backfill`, `/event` `/get_missing_events` from the still running synapse
 
+- switch to conduit, let synapse running and reachable only by the conduit instance
 
-- tell users to scroll through their rooms that have no users on other servers (or automate it using `_matrix/client/messages` requests)
-  - i think for me that's mostly private chat or bridged rooms.
+- tell the few other users to scroll through their non-federated messages (or automate it using `_matrix/client/messages` requests)
+  - i think for me that's mostly private chat or bridged rooms (which are ok to lose, i have to clean them anyway at some point)
+
+- shut down synapse
 
 - what am I missing? :)
 
+### Status
+ - There is some experimental code for trying out the various APIs.
