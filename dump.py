@@ -9,6 +9,8 @@ from util import canonical_json
 import event
 
 
+from federation import FederationClient
+from heapq import heapify, heappush, heappop
 
 ses = requests.Session()
 
@@ -127,7 +129,8 @@ class SynapseAdminClient(Client):
 
 
 a = SynapseAdminClient(config.homeserver, config.uid, config.token)
-room = "!SMloEYlhCiqKwRLAgY:fachschaften.org"
+
+room = "!SMloEYlhCiqKwRLAgY:fachschaften.org" # #conduit
 
 unknown_events = []
 print("getting messages via admin API:")
@@ -136,11 +139,10 @@ for i,m in enumerate(a.iter_messages(room)):
     unknown_events.append((-m["origin_server_ts"], m["event_id"]))
 
 
-from backfill import FederationClient
-from heapq import heapify, heappush, heappop
 
 fc = FederationClient(config.domain, config.signing_key)
 
+# leach all events using synapse api + backfill (to get the DAG)
 
 # priority queue with older timestamps first, to avoid gaps
 # the timestamp will come from the referencing event, but initially we use the
