@@ -2,7 +2,7 @@
 ## Migration tool for matrix servers
 
 At the moment, this is unfinished, experimental software for breaking my personal server.
-But in the long run, (contributing to) a universal matrix server
+But in the long run, (contributing to) a universal matrix server migration tool would be nice.
 
 Sorry, but following the convention we have to use math names to protest against search engine optimisation.
 
